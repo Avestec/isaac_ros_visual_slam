@@ -24,18 +24,22 @@ def generate_launch_description():
     """Launch file which brings up visual slam node configured for RealSense."""
     realsense_camera_node = Node(
         name='camera',
-        namespace='camera',
+        namespace='camera',    #OG
         package='realsense2_camera',
         executable='realsense2_camera_node',
         parameters=[{
             'enable_infra1': True,
             'enable_infra2': True,
-            'enable_color': False,
-            'enable_depth': False,
+            'enable_color': True,
+            'enable_depth': True,
             'depth_module.emitter_enabled': 0,
-            'depth_module.profile': '640x360x90',
-            'enable_gyro': True,
-            'enable_accel': True,
+            #'depth_module.profile': '1280x720x30',       # OG: '640x360x90'
+            'depth_module.depth_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+            'depth_module.infra_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+            'depth_module.color_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+            'rgb_camera.color_profile': '1280x720x30',      # add by david for ros-humble-realsense2-camera lib
+            'enable_gyro': False,
+            'enable_accel': False,
             'gyro_fps': 200,
             'accel_fps': 200,
             'unite_imu_method': 2
@@ -49,13 +53,14 @@ def generate_launch_description():
         parameters=[{
             'enable_image_denoising': False,
             'rectified_images': True,
-            'enable_imu_fusion': True,
+            'enable_imu_fusion': False,
             'gyro_noise_density': 0.000244,
             'gyro_random_walk': 0.000019393,
             'accel_noise_density': 0.001862,
             'accel_random_walk': 0.003,
             'calibration_frequency': 200.0,
-            'image_jitter_threshold_ms': 22.00,
+            #'image_jitter_threshold_ms': 22.00,        # OG
+            'image_jitter_threshold_ms': 34.00,        # add by david to stop console warning
             'base_frame': 'camera_link',
             'imu_frame': 'camera_gyro_optical_frame',
             'enable_slam_visualization': True,
@@ -67,11 +72,24 @@ def generate_launch_description():
             ],
         }],
         remappings=[
-            ('visual_slam/image_0', 'camera/infra1/image_rect_raw'),
-            ('visual_slam/camera_info_0', 'camera/infra1/camera_info'),
-            ('visual_slam/image_1', 'camera/infra2/image_rect_raw'),
-            ('visual_slam/camera_info_1', 'camera/infra2/camera_info'),
-            ('visual_slam/imu', 'camera/imu'),
+            # ('visual_slam/image_0', 'camera/infra1/image_rect_raw'),
+            # ('visual_slam/camera_info_0', 'camera/infra1/camera_info'),
+            # ('visual_slam/image_1', 'camera/infra2/image_rect_raw'),
+            # ('visual_slam/camera_info_1', 'camera/infra2/camera_info'),
+            # ('visual_slam/imu', 'camera/imu'),
+            # added by david for d405 with demo
+            # ('visual_slam/image_0', 'camera0/infra1/image_rect_raw'),
+            # ('visual_slam/camera_info_0', 'camera0/infra1/camera_info'),
+            # ('visual_slam/image_1', 'camera0/infra2/image_rect_raw'),
+            # ('visual_slam/camera_info_1', 'camera0/infra2/camera_info'),
+            # ('visual_slam/imu', 'camera0/imu'),
+
+            # added by david for d405 for docker lib
+            ('visual_slam/image_0', 'camera/camera/infra1/image_rect_raw'),
+            ('visual_slam/camera_info_0', 'camera/camera/infra1/camera_info'),
+            ('visual_slam/image_1', 'camera/camera/infra2/image_rect_raw'),
+            ('visual_slam/camera_info_1', 'camera/camera/infra2/camera_info'),
+            ('visual_slam/imu', 'camera/camera/imu'),
         ],
     )
 
