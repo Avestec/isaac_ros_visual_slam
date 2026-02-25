@@ -37,7 +37,10 @@ def generate_launch_description():
             'depth_module.depth_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
             'depth_module.infra_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
             'depth_module.color_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
-            'rgb_camera.color_profile': '1280x720x30',      # add by david for ros-humble-realsense2-camera lib
+            # 'depth_module.depth_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+            # 'depth_module.infra_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+            # 'depth_module.color_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+            'rgb_camera.color_profile': '1280x720x30',      # don't seem to have effect, but add by david for ros-humble-realsense2-camera lib
             'enable_gyro': False,
             'enable_accel': False,
             'gyro_fps': 200,
