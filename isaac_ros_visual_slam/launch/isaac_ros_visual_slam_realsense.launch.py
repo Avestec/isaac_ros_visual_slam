@@ -22,32 +22,32 @@ from launch_ros.descriptions import ComposableNode
 
 def generate_launch_description():
     """Launch file which brings up visual slam node configured for RealSense."""
-    realsense_camera_node = Node(
-        name='camera',
-        namespace='camera',    #OG
-        package='realsense2_camera',
-        executable='realsense2_camera_node',
-        parameters=[{
-            'enable_infra1': True,
-            'enable_infra2': True,
-            'enable_color': True,
-            'enable_depth': True,
-            'depth_module.emitter_enabled': 0,
-            #'depth_module.profile': '1280x720x30',       # OG: '640x360x90'
-            'depth_module.depth_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
-            'depth_module.infra_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
-            'depth_module.color_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
-            # 'depth_module.depth_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
-            # 'depth_module.infra_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
-            # 'depth_module.color_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
-            'rgb_camera.color_profile': '1280x720x30',      # don't seem to have effect, but add by david for ros-humble-realsense2-camera lib
-            'enable_gyro': False,
-            'enable_accel': False,
-            'gyro_fps': 200,
-            'accel_fps': 200,
-            'unite_imu_method': 2
-        }],
-    )
+    # realsense_camera_node = Node(
+    #     name='camera',
+    #     namespace='camera',    #OG
+    #     package='realsense2_camera',
+    #     executable='realsense2_camera_node',
+    #     parameters=[{
+    #         'enable_infra1': True,
+    #         'enable_infra2': True,
+    #         'enable_color': True,
+    #         'enable_depth': True,
+    #         'depth_module.emitter_enabled': 0,
+    #         #'depth_module.profile': '1280x720x30',       # OG: '640x360x90'
+    #         'depth_module.depth_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+    #         'depth_module.infra_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+    #         'depth_module.color_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
+    #         # 'depth_module.depth_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+    #         # 'depth_module.infra_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+    #         # 'depth_module.color_profile': '848x480x90',   # add by david for ros-humble-realsense2-camera lib
+    #         'rgb_camera.color_profile': '1280x720x30',      # don't seem to have effect, but add by david for ros-humble-realsense2-camera lib
+    #         'enable_gyro': False,
+    #         'enable_accel': False,
+    #         'gyro_fps': 200,
+    #         'accel_fps': 200,
+    #         'unite_imu_method': 2
+    #     }],
+    # )
 
     visual_slam_node = ComposableNode(
         name='visual_slam_node',
@@ -105,4 +105,4 @@ def generate_launch_description():
         output='screen',
     )
 
-    return launch.LaunchDescription([visual_slam_launch_container, realsense_camera_node])
+    return launch.LaunchDescription([visual_slam_launch_container])
