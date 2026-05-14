@@ -32,7 +32,7 @@ def generate_launch_description():
             'enable_infra2': True,
             'enable_color': True,
             'enable_depth': True,
-            'depth_module.emitter_enabled': 0,
+            'depth_module.emitter_enabled': 1,  # 1=always on (best coverage for D405); 2=alternating if VSLAM needed simultaneously
             #'depth_module.profile': '1280x720x30',       # OG: '640x360x90'
             'depth_module.depth_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
             'depth_module.infra_profile': '1280x720x30',    # add by david for ros-humble-realsense2-camera lib
@@ -45,7 +45,18 @@ def generate_launch_description():
             'enable_accel': False,
             'gyro_fps': 200,
             'accel_fps': 200,
-            'unite_imu_method': 2
+            'unite_imu_method': 2,
+            'depth_module.visual_preset': 4,  # High Density preset (maximises depth pixel coverage)
+            # Post-processing filters — fill depth holes without introducing fake values
+            'spatial_filter.enable': True,
+            'spatial_filter.filter_magnitude': 2,       # number of filter iterations (higher = more fill, more edge blur)
+            'spatial_filter.filter_smooth_alpha': 0.5,  # weight of current pixel vs neighbours [0.25-1.0] (lower = smoother)
+            'spatial_filter.filter_smooth_delta': 20,   # max depth difference (mm) to include in smoothing — preserves edges
+            'temporal_filter.enable': True,
+            'temporal_filter.filter_smooth_alpha': 0.4,  # blend with previous frames [0-1] (lower = more temporal smoothing, adds lag)
+            'temporal_filter.filter_smooth_delta': 20,   # max frame-to-frame depth change (mm) before resetting average
+            'hole_filling_filter.enable': True,
+            'hole_filling_filter.mode': 2,  # 0=fill from left, 1=farthest from around, 2=nearest — nearest avoids inflated depth
         }],
     )
 
