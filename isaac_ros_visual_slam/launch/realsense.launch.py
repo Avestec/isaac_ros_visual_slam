@@ -46,17 +46,16 @@ def generate_launch_description():
             'gyro_fps': 200,
             'accel_fps': 200,
             'unite_imu_method': 2,
-            'depth_module.visual_preset': 4,  # High Density preset (maximises depth pixel coverage)
-            # Post-processing filters — fill depth holes without introducing fake values
-            'spatial_filter.enable': True,
-            'spatial_filter.filter_magnitude': 2,       # number of filter iterations (higher = more fill, more edge blur)
-            'spatial_filter.filter_smooth_alpha': 0.5,  # weight of current pixel vs neighbours [0.25-1.0] (lower = smoother)
-            'spatial_filter.filter_smooth_delta': 20,   # max depth difference (mm) to include in smoothing — preserves edges
-            'temporal_filter.enable': True,
-            'temporal_filter.filter_smooth_alpha': 0.4,  # blend with previous frames [0-1] (lower = more temporal smoothing, adds lag)
-            'temporal_filter.filter_smooth_delta': 20,   # max frame-to-frame depth change (mm) before resetting average
-            'hole_filling_filter.enable': True,
-            'hole_filling_filter.mode': 2,  # 0=fill from left, 1=farthest from around, 2=nearest — nearest avoids inflated depth
+            # --- Depth tuning ---
+            'depth_module.visual_preset': 4,            # Default — best overall (user tested)
+            'depth_module.enable_auto_exposure': True,   # let camera adapt to scene
+            'depth_module.gain': 16,                    # lowest gain = least noise
+            'depth_module.hdr_enabled': False,          # HDR OFF — causes flicker on D405 (alternating exposures)
+            # All filters explicitly DISABLED — depth_enhancer.py handles post-processing
+            'spatial_filter.enable': False,
+            'temporal_filter.enable': False,
+            'hole_filling_filter.enable': False,
+            'decimation_filter.enable': False,
         }],
     )
 
